@@ -10,7 +10,7 @@ import roslib
 import sys
 import rospy
 import cv2
-from std_msgs.msg import String, Int16MultiArray
+from std_msgs.msg import String, Int16MultiArray, MultiArrayDimension
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import cv2 as cv
@@ -22,6 +22,35 @@ import time
 from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+
+
+#THIS IS ABOUT THE LAYOUT
+'''
+
+
+msg = Int16MultiArray()
+a = np.array([[[537, 264]], [[559, 221]], [[533, 157]], [[495, 148]], [[504, 225]], [[519 ,272]]])
+
+a1 = np.reshape(a, len(a)*len(a[0][0]))#, order='F')
+
+msg.data = a1
+
+# This is almost always zero there is no empty padding at the start of your data
+msg.layout.data_offset = 0
+
+# create two dimensions in the dim array
+msg.layout.dim = [MultiArrayDimension(), MultiArrayDimension()]
+
+# dim[0] is the vertical dimension of your matrix
+msg.layout.dim[0].label = "axes"
+msg.layout.dim[0].size = len(a[0][0])
+msg.layout.dim[0].stride = len(a)*len(a[0][0])
+# dim[1] is the horizontal dimension of your matrix
+msg.layout.dim[1].label = "vertices"
+msg.layout.dim[1].size = len(a)
+msg.layout.dim[1].stride = len(a)
+print(msg)
+'''
 
 initial_flag = False
 mydatetime = datetime.now()
