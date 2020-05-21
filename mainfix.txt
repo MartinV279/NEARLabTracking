@@ -125,7 +125,7 @@ class image_converter:
         #plt.imshow(old_frame1)
         #plt.show()
         msg = Int16MultiArray()
-        if not contour:
+        if contour.size == 0:
             if not initial_flag:
                 
     ######################################################### REFERENCE FOR TABBING
@@ -269,7 +269,7 @@ class image_converter:
 
             try:
                 pts = pts/ratio
-                pts.astype(int)
+                pts = pts.astype(int)
                 msg.data = np.reshape(pts, len(pts) * len(pts[0][0]))  # , order='F')
                 self.contour_pub.publish(msg)
                 self.image_pub.publish(self.bridge.cv2_to_imgmsg(img, "bgr8"))
