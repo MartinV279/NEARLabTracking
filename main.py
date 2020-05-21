@@ -27,9 +27,10 @@ import matplotlib.pyplot as plt
 #THIS IS ABOUT THE LAYOUT
 '''
 
+a = np.array([[[537, 264]], [[559, 221]], [[533, 157]], [[495, 148]], [[504, 225]], [[519 ,272]]])
 
 msg = Int16MultiArray()
-a = np.array([[[537, 264]], [[559, 221]], [[533, 157]], [[495, 148]], [[504, 225]], [[519 ,272]]])
+
 
 a1 = np.reshape(a, len(a)*len(a[0][0]))#, order='F')
 
@@ -245,6 +246,26 @@ class image_converter:
             old_gray = frame_gray.copy()
 
 
+            # preparation of point message to be published
+            msg = Int16MultiArray()
+            a1l = len(pts)
+            a1l0 = len(pts[0][0])
+            a1 = np.reshape(pts, a1l * a1l0)  # , order='F')
+            msg.data = a1
+            # This is almost always zero there is no empty padding at the start of your data
+            msg.layout.data_offset = 0
+            # create two dimensions in the dim array
+            msg.layout.dim = [MultiArrayDimension(), MultiArrayDimension()]
+            # dim[0] is the vertical dimension of your matrix
+            msg.layout.dim[0].label = "axes"
+            msg.layout.dim[0].size = a1l0
+            msg.layout.dim[0].stride = a1l * a1l0
+            # dim[1] is the horizontal dimension of your matrix
+            msg.layout.dim[1].label = "vertices"
+            msg.layout.dim[1].size = a1l
+            msg.layout.dim[1].stride = a1l
+
+
 
         #except CvBridgeError as e:
         #    print(e)
@@ -252,7 +273,7 @@ class image_converter:
 
 
         try:
-            #self.contour_pub.publish(pts)
+            self.contour_pub.publish(msg)
             self.image_pub.publish(self.bridge.cv2_to_imgmsg(img, "bgr8"))
         except CvBridgeError as e:
             print(e)
