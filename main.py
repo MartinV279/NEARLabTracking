@@ -245,14 +245,16 @@ class image_converter:
 
             old_gray = frame_gray.copy()
 
-
-            # preparation of point message to be published
             msg = Int16MultiArray()
+            msg.data = np.reshape(pts, a1l * a1l0)  # , order='F')
+            '''
+            # preparation of point message to be published
+
             a1l = len(pts)
             a1l0 = len(pts[0][0])
             a1 = np.reshape(pts, a1l * a1l0)  # , order='F')
             msg.data = a1
-            '''
+
             # This is almost always zero there is no empty padding at the start of your data
             msg.layout.data_offset = 0
             # create two dimensions in the dim array
