@@ -246,7 +246,7 @@ class image_converter:
             old_gray = frame_gray.copy()
 
             msg = Int16MultiArray()
-            msg.data = np.reshape(pts, a1l * a1l0)  # , order='F')
+            msg.data = np.reshape(pts, len(pts) * len(pts[0][0]))  # , order='F')
             '''
             # preparation of point message to be published
 
