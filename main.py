@@ -252,6 +252,7 @@ class image_converter:
             a1l0 = len(pts[0][0])
             a1 = np.reshape(pts, a1l * a1l0)  # , order='F')
             msg.data = a1
+            '''
             # This is almost always zero there is no empty padding at the start of your data
             msg.layout.data_offset = 0
             # create two dimensions in the dim array
@@ -264,7 +265,7 @@ class image_converter:
             msg.layout.dim[1].label = "vertices"
             msg.layout.dim[1].size = a1l
             msg.layout.dim[1].stride = a1l
-
+            '''
 
 
         #except CvBridgeError as e:
