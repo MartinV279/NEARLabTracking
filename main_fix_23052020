@@ -93,7 +93,8 @@ class image_converter:
         #print(type(contour1))
         #print(len(contour1))
         #contour = np.zeros((len(contour_t)/2,2))
-        contour = np.array(contour_t).reshape(-1, 2)
+        contour = np.array(contour_t).reshape(-1, 2)*ratio
+        contour[:,1] = 1080*ratio - contour[:,1]
 
         #it = iter(contour_t)
         #contour1 = list(zip(it, it))
